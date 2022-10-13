@@ -18,7 +18,6 @@ void yyerror(const char* s);
 %token DIV
 %token LEFT
 %token RIGHT
-%token OPOS
 
 %left ADD SUB
 %left MUL DIV
@@ -36,7 +35,7 @@ expr    :   expr ADD expr   {$$ = $1 + $3;}
         |   expr MUL expr   {$$ = $1 * $3;} 
         |   expr DIV expr   {$$ = $1 / $3;} 
         |   LEFT expr RIGHT {$$ = $2;}
-        |   OPOS expr %prec UMINUS {$$ = -$2;}
+        |   SUB expr %prec UMINUS {$$ = -$2;}
         |   NUMBER          {$$ = $1;}
         ;
 
