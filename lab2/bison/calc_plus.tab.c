@@ -72,20 +72,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#ifndef YYSTYPE
-#define YYSTYPE double
-#endif
+#include<string.h>
+
+struct id
+{
+    char *name;
+    double value;
+};
+struct id id_list[50];
+struct id* find_id(char* s);
+char idStr[50];
 int yylex ();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
-struct id
-{
-    char idStr[50];
-    double value;
-} id_;
 
-#line 89 "calc_plus.tab.c"
+#line 91 "calc_plus.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -131,7 +133,8 @@ enum yysymbol_kind_t
   YYSYMBOL_15_ = 15,                       /* ';'  */
   YYSYMBOL_YYACCEPT = 16,                  /* $accept  */
   YYSYMBOL_lines = 17,                     /* lines  */
-  YYSYMBOL_expr = 18                       /* expr  */
+  YYSYMBOL_stmt = 18,                      /* stmt  */
+  YYSYMBOL_expr = 19                       /* expr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -457,18 +460,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  18
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   50
+#define YYLAST   56
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  16
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  3
+#define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  17
+#define YYNRULES  18
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  29
+#define YYNSTATES  32
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   269
@@ -518,8 +521,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    35,    35,    36,    37,    40,    41,    42,    43,    44,
-      45,    46,    48,    50,    52,    54,    56,    57
+       0,    47,    47,    48,    49,    52,    53,    56,    57,    58,
+      59,    60,    61,    62,    64,    66,    68,    70,    71
 };
 #endif
 
@@ -537,7 +540,7 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "ID", "NUMBER", "ADD",
   "SUB", "MUL", "DIV", "LEFT", "RIGHT", "EQUAL", "ADD_", "SUB_", "UMINUS",
-  "';'", "$accept", "lines", "expr", YY_NULLPTR
+  "';'", "$accept", "lines", "stmt", "expr", YY_NULLPTR
 };
 
 static const char *
@@ -547,7 +550,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-6)
+#define YYPACT_NINF (-10)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -561,9 +564,10 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -6,    17,    -6,    37,    -6,    -1,    -1,     1,     4,    -6,
-      28,    -1,    -6,    -6,    -6,    32,    -6,    -6,    -1,    -1,
-      -1,    -1,    -6,    39,    -6,     2,     2,    -6,    -6
+      19,    43,   -10,    30,    30,     6,     7,     2,     1,    45,
+      30,   -10,   -10,    -9,   -10,    39,   -10,   -10,   -10,     9,
+     -10,    30,    30,    30,    30,    45,   -10,   -10,     5,     5,
+     -10,   -10
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -571,21 +575,22 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       4,     0,     1,    10,    17,     0,     0,     0,     0,     3,
-       0,     0,    12,    13,    16,     0,    14,    15,     0,     0,
-       0,     0,     2,    11,     9,     5,     6,     7,     8
+       4,    12,    18,     0,     0,     0,     0,     0,     0,     6,
+       0,    13,    14,    12,    17,     0,    15,    16,     1,     0,
+       3,     0,     0,     0,     0,     5,    11,     2,     7,     8,
+       9,    10
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    -5
+     -10,   -10,    10,    -3
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,    10
+       0,     7,     8,     9
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -593,45 +598,46 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      14,    15,     3,     4,    16,     5,    23,    17,     6,    20,
-      21,     7,     8,    25,    26,    27,    28,     2,     0,     0,
-       3,     4,     0,     5,     0,     0,     6,     0,     0,     7,
-       8,     0,     9,    18,    19,    20,    21,    18,    19,    20,
-      21,     0,    24,    22,    18,    19,    20,    21,    11,    12,
-      13
+      14,    15,    18,    11,    12,     1,     2,    25,     3,    16,
+      17,     4,    23,    24,     5,     6,    20,    19,    28,    29,
+      30,    31,     1,     2,    27,     3,     0,     0,     4,     0,
+       0,     5,     6,    13,     2,     0,     3,     0,     0,     4,
+       0,     0,     5,     6,    21,    22,    23,    24,     0,    26,
+      21,    22,    23,    24,    10,    11,    12
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,     6,     3,     4,     3,     6,    11,     3,     9,     7,
-       8,    12,    13,    18,    19,    20,    21,     0,    -1,    -1,
-       3,     4,    -1,     6,    -1,    -1,     9,    -1,    -1,    12,
-      13,    -1,    15,     5,     6,     7,     8,     5,     6,     7,
-       8,    -1,    10,    15,     5,     6,     7,     8,    11,    12,
-      13
+       3,     4,     0,    12,    13,     3,     4,    10,     6,     3,
+       3,     9,     7,     8,    12,    13,    15,     7,    21,    22,
+      23,    24,     3,     4,    15,     6,    -1,    -1,     9,    -1,
+      -1,    12,    13,     3,     4,    -1,     6,    -1,    -1,     9,
+      -1,    -1,    12,    13,     5,     6,     7,     8,    -1,    10,
+       5,     6,     7,     8,    11,    12,    13
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    17,     0,     3,     4,     6,     9,    12,    13,    15,
-      18,    11,    12,    13,    18,    18,     3,     3,     5,     6,
-       7,     8,    15,    18,    10,    18,    18,    18,    18
+       0,     3,     4,     6,     9,    12,    13,    17,    18,    19,
+      11,    12,    13,     3,    19,    19,     3,     3,     0,    18,
+      15,     5,     6,     7,     8,    19,    10,    15,    19,    19,
+      19,    19
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    16,    17,    17,    17,    18,    18,    18,    18,    18,
-      18,    18,    18,    18,    18,    18,    18,    18
+       0,    16,    17,    17,    17,    18,    18,    19,    19,    19,
+      19,    19,    19,    19,    19,    19,    19,    19,    19
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     2,     0,     3,     3,     3,     3,     3,
-       1,     3,     2,     2,     2,     2,     2,     1
+       0,     2,     3,     2,     0,     3,     1,     3,     3,     3,
+       3,     3,     1,     2,     2,     2,     2,     2,     1
 };
 
 
@@ -1094,97 +1100,96 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* lines: lines expr ';'  */
-#line 35 "calc_plus.y"
-                           {printf("%f\n", yyvsp[-1]);}
-#line 1101 "calc_plus.tab.c"
-    break;
-
-  case 5: /* expr: expr ADD expr  */
-#line 40 "calc_plus.y"
-                            {yyval = yyvsp[-2] + yyvsp[0];}
+  case 5: /* stmt: ID EQUAL expr  */
+#line 52 "calc_plus.y"
+                            {(yyvsp[-2].identifier)->value = (yyvsp[0].dval);}
 #line 1107 "calc_plus.tab.c"
     break;
 
-  case 6: /* expr: expr SUB expr  */
-#line 41 "calc_plus.y"
-                            {yyval = yyvsp[-2] - yyvsp[0];}
+  case 6: /* stmt: expr  */
+#line 53 "calc_plus.y"
+                            {printf("%f\n", (yyvsp[0].dval));}
 #line 1113 "calc_plus.tab.c"
     break;
 
-  case 7: /* expr: expr MUL expr  */
-#line 42 "calc_plus.y"
-                            {yyval = yyvsp[-2] * yyvsp[0];}
+  case 7: /* expr: expr ADD expr  */
+#line 56 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[-2].dval) + (yyvsp[0].dval);}
 #line 1119 "calc_plus.tab.c"
     break;
 
-  case 8: /* expr: expr DIV expr  */
-#line 43 "calc_plus.y"
-                            {yyval = yyvsp[-2] / yyvsp[0];}
+  case 8: /* expr: expr SUB expr  */
+#line 57 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[-2].dval) - (yyvsp[0].dval);}
 #line 1125 "calc_plus.tab.c"
     break;
 
-  case 9: /* expr: LEFT expr RIGHT  */
-#line 44 "calc_plus.y"
-                            {yyval = yyvsp[-1];}
+  case 9: /* expr: expr MUL expr  */
+#line 58 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[-2].dval) * (yyvsp[0].dval);}
 #line 1131 "calc_plus.tab.c"
     break;
 
-  case 10: /* expr: ID  */
-#line 45 "calc_plus.y"
-                            {yyval = id_.value;}
+  case 10: /* expr: expr DIV expr  */
+#line 59 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[-2].dval) / (yyvsp[0].dval);}
 #line 1137 "calc_plus.tab.c"
     break;
 
-  case 11: /* expr: ID EQUAL expr  */
-#line 46 "calc_plus.y"
-                            {id_.value = yyvsp[0];
-                                yyval = yyvsp[0];}
-#line 1144 "calc_plus.tab.c"
+  case 11: /* expr: LEFT expr RIGHT  */
+#line 60 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[-1].dval);}
+#line 1143 "calc_plus.tab.c"
     break;
 
-  case 12: /* expr: ID ADD_  */
-#line 48 "calc_plus.y"
-                            {yyval = id_.value; 
-                                id_.value += 1;}
-#line 1151 "calc_plus.tab.c"
+  case 12: /* expr: ID  */
+#line 61 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[0].identifier)->value;}
+#line 1149 "calc_plus.tab.c"
     break;
 
-  case 13: /* expr: ID SUB_  */
-#line 50 "calc_plus.y"
-                                    {yyval = id_.value;
-                                id_.value -= 1;}
-#line 1158 "calc_plus.tab.c"
+  case 13: /* expr: ID ADD_  */
+#line 62 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[-1].identifier)->value; 
+                                (yyvsp[-1].identifier)->value += 1;}
+#line 1156 "calc_plus.tab.c"
     break;
 
-  case 14: /* expr: ADD_ ID  */
-#line 52 "calc_plus.y"
-                                    {id_.value += 1; 
-                                yyval = id_.value;}
-#line 1165 "calc_plus.tab.c"
+  case 14: /* expr: ID SUB_  */
+#line 64 "calc_plus.y"
+                                    {(yyval.dval) = (yyvsp[-1].identifier)->value;
+                                (yyvsp[-1].identifier)->value -= 1;}
+#line 1163 "calc_plus.tab.c"
     break;
 
-  case 15: /* expr: SUB_ ID  */
-#line 54 "calc_plus.y"
-                                    {id_.value -= 1;
-                                yyval = id_.value;}
-#line 1172 "calc_plus.tab.c"
+  case 15: /* expr: ADD_ ID  */
+#line 66 "calc_plus.y"
+                                    {(yyvsp[0].identifier)->value += 1; 
+                                (yyval.dval) = (yyvsp[0].identifier)->value;}
+#line 1170 "calc_plus.tab.c"
     break;
 
-  case 16: /* expr: SUB expr  */
-#line 56 "calc_plus.y"
-                                  {yyval = -yyvsp[0];}
-#line 1178 "calc_plus.tab.c"
+  case 16: /* expr: SUB_ ID  */
+#line 68 "calc_plus.y"
+                                    {(yyvsp[0].identifier)->value -= 1;
+                                (yyval.dval) = (yyvsp[0].identifier)->value;}
+#line 1177 "calc_plus.tab.c"
     break;
 
-  case 17: /* expr: NUMBER  */
-#line 57 "calc_plus.y"
-                            {yyval = yyvsp[0];}
-#line 1184 "calc_plus.tab.c"
+  case 17: /* expr: SUB expr  */
+#line 70 "calc_plus.y"
+                                  {(yyval.dval) = -(yyvsp[0].dval);}
+#line 1183 "calc_plus.tab.c"
+    break;
+
+  case 18: /* expr: NUMBER  */
+#line 71 "calc_plus.y"
+                            {(yyval.dval) = (yyvsp[0].dval);}
+#line 1189 "calc_plus.tab.c"
     break;
 
 
-#line 1188 "calc_plus.tab.c"
+#line 1193 "calc_plus.tab.c"
 
       default: break;
     }
@@ -1377,10 +1382,9 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 60 "calc_plus.y"
+#line 73 "calc_plus.y"
 
 
-//programs section
 int yylex()
 {
     char t;
@@ -1391,17 +1395,18 @@ int yylex()
         } else if (( t >= 'a' && t <= 'z') || ( t >= 'A' && t <= 'Z') || ( t == '_')) {
             int ti = 0;
             while (( t >= 'a' && t <= 'z') || ( t >= 'A' && t <= 'Z') || ( t == '_') || (t >= '0' && t <='9')) {
-                id_.idStr[ti] = t;
+                idStr[ti] = t;
                 ti++;
                 t = getchar();
             }
-            id_.idStr[ti] = '\0';
+            idStr[ti] = '\0';
+            yylval.identifier = find_id(idStr);
             ungetc(t, stdin);
             return ID;
         } else if(isdigit(t)) {
-            yylval = 0;
+            yylval.dval = 0;
             while(isdigit(t)) {
-                yylval = yylval * 10 + t - '0';
+                yylval.dval = yylval.dval * 10 + t - '0';
                 t = getchar();
             }
             ungetc(t, stdin);
@@ -1436,6 +1441,22 @@ int yylex()
             return t;
         }
     }
+}
+
+struct id* find_id(char* s){
+    struct id *sp;
+    for(sp = id_list; sp < &id_list[50]; sp++){
+        //符号表中存在目标符号
+        if(sp->name && !strcmp(sp->name, s))
+            return sp;
+        //符号表查找完
+        if(!sp->name){
+            sp->name = strdup(s);
+            return sp;
+        }
+    }
+    yyerror("id_list FULL");
+    exit(1);
 }
 
 int main(void)
