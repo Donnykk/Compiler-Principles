@@ -515,7 +515,7 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int8 yyrline[] =
 {
        0,    32,    32,    33,    34,    37,    41,    45,    49,    53,
-      54,    57,    60
+      54,    58,    61
 };
 #endif
 
@@ -1139,29 +1139,30 @@ yyreduce:
   case 10: /* expr: SUB expr  */
 #line 54 "expr.y"
                                  {yyval = (char*)malloc(50 * sizeof(char));
-                                        strcpy(yyval, yyvsp[0]);
-                                        strcat(yyval, "- ");}
-#line 1145 "expr.tab.c"
+                                        strcpy(yyval, "-");
+                                        strcat(yyval, yyvsp[0]);
+                                        }
+#line 1146 "expr.tab.c"
     break;
 
   case 11: /* expr: NUMBER  */
-#line 57 "expr.y"
+#line 58 "expr.y"
                     {yyval = (char*)malloc(50 * sizeof(char));
                         strcpy(yyval, yyvsp[0]);
                         strcat(yyval, " ");}
-#line 1153 "expr.tab.c"
+#line 1154 "expr.tab.c"
     break;
 
   case 12: /* expr: ID  */
-#line 60 "expr.y"
+#line 61 "expr.y"
                 {yyval = (char*)malloc(50 * sizeof(char));
             strcpy(yyval, yyvsp[0]);
             strcat(yyval, " ");}
-#line 1161 "expr.tab.c"
+#line 1162 "expr.tab.c"
     break;
 
 
-#line 1165 "expr.tab.c"
+#line 1166 "expr.tab.c"
 
       default: break;
     }
@@ -1354,7 +1355,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 64 "expr.y"
+#line 65 "expr.y"
 
 
 //program section

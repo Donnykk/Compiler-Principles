@@ -52,8 +52,9 @@ expr    :   expr ADD expr {$$ = (char*)malloc(50 * sizeof(char));
                                 strcat($$, "/ ");}
         |   LEFT expr RIGHT{$$ = $2;}
         |   SUB expr %prec UMINUS{$$ = (char*)malloc(50 * sizeof(char));
-                                        strcpy($$, $2);
-                                        strcat($$, "- ");}
+                                        strcpy($$, "-");
+                                        strcat($$, $2);
+                                        }
         |   NUMBER  {$$ = (char*)malloc(50 * sizeof(char));
                         strcpy($$, $1);
                         strcat($$, " ");}

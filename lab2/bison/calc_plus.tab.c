@@ -73,21 +73,19 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include<string.h>
-
-struct id
-{
-    char *name;
-    double value;
-};
-struct id id_list[50];
-struct id* find_id(char* s);
-char idStr[50];
 int yylex ();
 extern int yyparse();
 FILE* yyin;
 void yyerror(const char* s);
+struct id
+{
+    char *name;
+    double value;
+} id_list[50];
+struct id* find_id(char* s);
+char idStr[50];
 
-#line 91 "calc_plus.tab.c"
+#line 89 "calc_plus.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -521,8 +519,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    47,    47,    48,    49,    52,    53,    56,    57,    58,
-      59,    60,    61,    62,    64,    66,    68,    70,    71
+       0,    45,    45,    46,    47,    50,    51,    54,    55,    56,
+      57,    58,    59,    60,    62,    64,    66,    68,    69
 };
 #endif
 
@@ -1101,95 +1099,95 @@ yyreduce:
   switch (yyn)
     {
   case 5: /* stmt: ID EQUAL expr  */
-#line 52 "calc_plus.y"
+#line 50 "calc_plus.y"
                             {(yyvsp[-2].identifier)->value = (yyvsp[0].dval);}
-#line 1107 "calc_plus.tab.c"
+#line 1105 "calc_plus.tab.c"
     break;
 
   case 6: /* stmt: expr  */
-#line 53 "calc_plus.y"
+#line 51 "calc_plus.y"
                             {printf("%f\n", (yyvsp[0].dval));}
-#line 1113 "calc_plus.tab.c"
+#line 1111 "calc_plus.tab.c"
     break;
 
   case 7: /* expr: expr ADD expr  */
-#line 56 "calc_plus.y"
+#line 54 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[-2].dval) + (yyvsp[0].dval);}
-#line 1119 "calc_plus.tab.c"
+#line 1117 "calc_plus.tab.c"
     break;
 
   case 8: /* expr: expr SUB expr  */
-#line 57 "calc_plus.y"
+#line 55 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[-2].dval) - (yyvsp[0].dval);}
-#line 1125 "calc_plus.tab.c"
+#line 1123 "calc_plus.tab.c"
     break;
 
   case 9: /* expr: expr MUL expr  */
-#line 58 "calc_plus.y"
+#line 56 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[-2].dval) * (yyvsp[0].dval);}
-#line 1131 "calc_plus.tab.c"
+#line 1129 "calc_plus.tab.c"
     break;
 
   case 10: /* expr: expr DIV expr  */
-#line 59 "calc_plus.y"
+#line 57 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[-2].dval) / (yyvsp[0].dval);}
-#line 1137 "calc_plus.tab.c"
+#line 1135 "calc_plus.tab.c"
     break;
 
   case 11: /* expr: LEFT expr RIGHT  */
-#line 60 "calc_plus.y"
+#line 58 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[-1].dval);}
-#line 1143 "calc_plus.tab.c"
+#line 1141 "calc_plus.tab.c"
     break;
 
   case 12: /* expr: ID  */
-#line 61 "calc_plus.y"
+#line 59 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[0].identifier)->value;}
-#line 1149 "calc_plus.tab.c"
+#line 1147 "calc_plus.tab.c"
     break;
 
   case 13: /* expr: ID ADD_  */
-#line 62 "calc_plus.y"
+#line 60 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[-1].identifier)->value; 
                                 (yyvsp[-1].identifier)->value += 1;}
-#line 1156 "calc_plus.tab.c"
+#line 1154 "calc_plus.tab.c"
     break;
 
   case 14: /* expr: ID SUB_  */
-#line 64 "calc_plus.y"
+#line 62 "calc_plus.y"
                                     {(yyval.dval) = (yyvsp[-1].identifier)->value;
                                 (yyvsp[-1].identifier)->value -= 1;}
-#line 1163 "calc_plus.tab.c"
+#line 1161 "calc_plus.tab.c"
     break;
 
   case 15: /* expr: ADD_ ID  */
-#line 66 "calc_plus.y"
+#line 64 "calc_plus.y"
                                     {(yyvsp[0].identifier)->value += 1; 
                                 (yyval.dval) = (yyvsp[0].identifier)->value;}
-#line 1170 "calc_plus.tab.c"
+#line 1168 "calc_plus.tab.c"
     break;
 
   case 16: /* expr: SUB_ ID  */
-#line 68 "calc_plus.y"
+#line 66 "calc_plus.y"
                                     {(yyvsp[0].identifier)->value -= 1;
                                 (yyval.dval) = (yyvsp[0].identifier)->value;}
-#line 1177 "calc_plus.tab.c"
+#line 1175 "calc_plus.tab.c"
     break;
 
   case 17: /* expr: SUB expr  */
-#line 70 "calc_plus.y"
+#line 68 "calc_plus.y"
                                   {(yyval.dval) = -(yyvsp[0].dval);}
-#line 1183 "calc_plus.tab.c"
+#line 1181 "calc_plus.tab.c"
     break;
 
   case 18: /* expr: NUMBER  */
-#line 71 "calc_plus.y"
+#line 69 "calc_plus.y"
                             {(yyval.dval) = (yyvsp[0].dval);}
-#line 1189 "calc_plus.tab.c"
+#line 1187 "calc_plus.tab.c"
     break;
 
 
-#line 1193 "calc_plus.tab.c"
+#line 1191 "calc_plus.tab.c"
 
       default: break;
     }
@@ -1382,7 +1380,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 73 "calc_plus.y"
+#line 71 "calc_plus.y"
 
 
 int yylex()
