@@ -19,8 +19,8 @@ OBJ = $(SRC:$(SRC_PATH)/%.cpp=$(OBJ_PATH)/%.o)
 PARSERH ?= $(INC_PATH)/$(addsuffix .h, $(notdir $(basename $(PARSER))))
 TEST ?= $(shell find test/TA -name "*.sy")
 
-BINARY_LAB3 ?= $(BUILD_PATH)/lexer
-TEST_LAB3 ?= $(shell find test/lab3 -name "*.sy")
+BINARY_LABFOUR ?= $(BUILD_PATH)/lexer
+TEST_LABFOUR ?= $(shell find test/lab4 -name "*.sy")
 
 .phony:app run gdb clean test
 
@@ -49,21 +49,21 @@ $(OBJ_PATH)/lexer.o:$(SRC_PATH)/lexer.cpp
 	@mkdir -p $(OBJ_PATH)
 	@g++ $(CFLAGS) -c -o $@ $<
 
-$(BINARY_LAB3):$(OBJ_PATH)/lexer.o
+$(BINARY_LABFOUR):$(OBJ_PATH)/lexer.o
 	@g++ -O0 -g -o $@ $^
 
 .ONESHELL:
-testlab3:$(LEXER) $(BINARY_LAB3)
-	@mkdir -p $(TEST_PATH)/lab3
-	for file in $(TEST_LAB3)
+testlabfour:$(LEXER) $(BINARY_LABFOUR)
+	@mkdir -p $(TEST_PATH)/lab4
+	for file in $(TEST_LABFOUR)
 	do
 		out=$${file##*/}
-		out=$(TEST_PATH)/lab3/$${out%.sy}.out
-		$(BINARY_LAB3) $${file} -o $${out} --lab3
+		out=$(TEST_PATH)/lab4/$${out%.sy}.out
+		$(BINARY_LABFOUR) $${file} -o $${out} --lab4
 	done
 
 clean:
 	@rm -rf $(BUILD_PATH) $(PARSER) $(LEXER) $(PARSERH) ./example.out
 
-cleanlab3:
-	@rm -rf $(BUILD_PATH) $(LEXER) $(TEST_PATH)/lab3/*.out ./example.out
+cleanlabfour:
+	@rm -rf $(BUILD_PATH) $(LEXER) $(TEST_PATH)/lab4/*.out ./example.out

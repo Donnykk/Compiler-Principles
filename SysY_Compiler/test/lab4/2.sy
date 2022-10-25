@@ -1,9 +1,9 @@
 // i am a function: this function has many syntax errors.
 
 int f(){
-	int a;
-	a = 0;
-	while(a<10){
+	float a;
+	a = 0.0;
+	while(a < 10){
 		a = a * 2345;
 	}
 	return a;
