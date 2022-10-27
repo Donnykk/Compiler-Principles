@@ -1,15 +1,15 @@
 [DEBUG LAB4]: 	INT	int	line:1
-[DEBUG LAB4]: 	ID	a	line:1
+[DEBUG LAB4]: 	ID	a	line:1	SymbolTable_offset: 1
 [DEBUG LAB4]: 	SEMICOLON	;	line:1
 [DEBUG LAB4]: 	INT	int	line:3
-[DEBUG LAB4]: 	ID	main	line:3
+[DEBUG LAB4]: 	ID	main	line:3	SymbolTable_offset: 2
 [DEBUG LAB4]: 	LPAREN	(	line:3
 [DEBUG LAB4]: 	RPAREN	)	line:3
 [DEBUG LAB4]: 	LBRACE	{	line4
 [DEBUG LAB4]: 	INT	int	line:5
-[DEBUG LAB4]: 	ID	a	line:5
+[DEBUG LAB4]: 	ID	a	line:5	SymbolTable_offset: 3
 [DEBUG LAB4]: 	SEMICOLON	;	line:5
-[DEBUG LAB4]: 	ID	a	line:6
+[DEBUG LAB4]: 	ID	a	line:6	SymbolTable_offset: 3
 [DEBUG LAB4]: 	ASSIGN	=	line:6
 [DEBUG LAB4]: 	DECIMAL	1	line:6
 [DEBUG LAB4]: 	ADD	+	line:6
@@ -17,7 +17,7 @@
 [DEBUG LAB4]: 	SEMICOLON	;	line:6
 [DEBUG LAB4]: 	IF	if	line:7
 [DEBUG LAB4]: 	LPAREN	(	line:7
-[DEBUG LAB4]: 	ID	a	line:7
+[DEBUG LAB4]: 	ID	a	line:7	SymbolTable_offset: 3
 [DEBUG LAB4]: 	LESS	<	line:7
 [DEBUG LAB4]: 	DECIMAL	5	line:7
 [DEBUG LAB4]: 	RPAREN	)	line:7

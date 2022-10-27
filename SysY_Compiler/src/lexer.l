@@ -23,25 +23,20 @@
     extern FILE *yyin; 
     extern FILE *yyout;
 
-    struct Identifier{
-        string name;
-        int type;
-        int value;
-        bool access;
+    struct Symbol{
+        string value;
+        int scope;
     };
 
-    Identifier id_list[10];
-    int len;
-
-    void DEBUG_FOR_LAB4(std::string s, Identifier* ptr = NULL){
-        if(ptr == NULL){
+    Symbol sym_list[100]; //符号表
+    int len = 0; //符号表长度
+    int temp_scope = 0; //作用域编号
+    int last_scope = 0;
+    bool scope_used[100] = {false};
+    bool inner = false;
+    void DEBUG_FOR_LAB4(std::string s){
             std::string DEBUG_INFO = "[DEBUG LAB4]: \t" + s + "\n";
             fputs(DEBUG_INFO.c_str(), yyout);
-        }
-        else{
-            
-        }
-        
     }
     #endif
 %}
@@ -92,7 +87,17 @@ BLOCKCOMMENTEND "*/"
 }
 "while" {
     #ifdef ONLY_FOR_LEX
+        inner = true;
         string temp = "WHILE\twhile\tline:" + to_string(yylineno);
+        DEBUG_FOR_LAB4(temp);
+    #else
+        return WHILE;
+    #endif
+}
+"for" {
+    #ifdef ONLY_FOR_LEX
+        inner = true;
+        string temp = "FOR\tfor\tline:" + to_string(yylineno);
         DEBUG_FOR_LAB4(temp);
     #else
         return WHILE;
@@ -163,6 +168,7 @@ BLOCKCOMMENTEND "*/"
 }
 "if" {
     #ifdef ONLY_FOR_LEX
+        inner = true;
         DEBUG_FOR_LAB4("IF\tif\tline:" + to_string(yylineno));
     #else
         return IF;
@@ -346,6 +352,14 @@ BLOCKCOMMENTEND "*/"
 }
 "{" {
     #ifdef ONLY_FOR_LEX
+        if(!inner){
+            last_scope = temp_scope;
+            temp_scope++;
+            while(scope_used[temp_scope]){
+                temp_scope++;
+            }
+            scope_used[temp_scope] = true;
+        }
         DEBUG_FOR_LAB4("LBRACE\t{\tline" + to_string(yylineno));
     #else
         return LBRACE;
@@ -353,6 +367,11 @@ BLOCKCOMMENTEND "*/"
 }
 "}" {
     #ifdef ONLY_FOR_LEX
+        if(inner){
+            inner = false;
+        } else{
+            temp_scope = last_scope;
+        }
         DEBUG_FOR_LAB4("RBRACE\t}\tline:" + to_string(yylineno));
     #else
         return RBRACE;
@@ -455,7 +474,25 @@ BLOCKCOMMENTEND "*/"
 {ID} {
     #ifdef ONLY_FOR_LEX
         string a = yytext;
-        string temp = "ID\t" + a + "\tline:" + to_string(yylineno);
+        string temp;
+        bool flag = false; //是否存在于符号表
+        int i = 0;
+        for(; i < len; i++){
+            if(sym_list[i].value == a && sym_list[i].scope == temp_scope){
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            temp = "ID\t" + a + "\tline:" + to_string(yylineno) + "\tSymbolTable_offset: " + to_string(i + 1);
+        } else {
+            len++;
+            Symbol sym;
+            sym.value = a;
+            sym.scope = temp_scope;
+            sym_list[len - 1] = sym;
+            temp = "ID\t" + a + "\tline:" + to_string(yylineno) + "\tSymbolTable_offset: " + to_string(len);
+        }
         DEBUG_FOR_LAB4(temp);
     #else
         return ID;

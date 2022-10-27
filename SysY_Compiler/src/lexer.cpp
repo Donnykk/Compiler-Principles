@@ -582,30 +582,25 @@ char *yytext;
     extern FILE *yyin; 
     extern FILE *yyout;
 
-    struct Identifier{
-        string name;
-        int type;
-        int value;
-        bool access;
+    struct Symbol{
+        string value;
+        int scope;
     };
 
-    Identifier id_list[10];
-    int len;
-
-    void DEBUG_FOR_LAB4(std::string s, Identifier* ptr = NULL){
-        if(ptr == NULL){
+    Symbol sym_list[100]; //符号表
+    int len = 0; //符号表长度
+    int temp_scope = 0; //作用域编号
+    int last_scope = 0;
+    bool scope_used[100] = {false};
+    bool inner = false;
+    void DEBUG_FOR_LAB4(std::string s){
             std::string DEBUG_INFO = "[DEBUG LAB4]: \t" + s + "\n";
             fputs(DEBUG_INFO.c_str(), yyout);
-        }
-        else{
-            
-        }
-        
     }
     #endif
-#line 607 "src/lexer.cpp"
+#line 602 "src/lexer.cpp"
 
-#line 609 "src/lexer.cpp"
+#line 604 "src/lexer.cpp"
 
 #define INITIAL 0
 #define BLOCKCOMMENT 1
@@ -823,10 +818,10 @@ YY_DECL
 		}
 
 	{
-#line 62 "src/lexer.l"
+#line 57 "src/lexer.l"
 
 
-#line 830 "src/lexer.cpp"
+#line 825 "src/lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -885,7 +880,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 64 "src/lexer.l"
+#line 59 "src/lexer.l"
 {
     /*
     * Questions: 
@@ -902,7 +897,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 77 "src/lexer.l"
+#line 72 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "FLOAT\tfloat\tline:" + to_string(yylineno);
@@ -914,7 +909,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 85 "src/lexer.l"
+#line 80 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "CHAR\tchar\tline:" + to_string(yylineno);
@@ -926,9 +921,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 93 "src/lexer.l"
+#line 88 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
+        inner = true;
         string temp = "WHILE\twhile\tline:" + to_string(yylineno);
         DEBUG_FOR_LAB4(temp);
     #else
@@ -938,7 +934,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 101 "src/lexer.l"
+#line 97 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "BREAK\tbreak\tline:" + to_string(yylineno);
@@ -950,7 +946,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 109 "src/lexer.l"
+#line 105 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "CONTINUE\tcontinue\tline:" + to_string(yylineno);
@@ -962,7 +958,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 117 "src/lexer.l"
+#line 113 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "CONST\tconst\tline:" + to_string(yylineno);
@@ -974,7 +970,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 125 "src/lexer.l"
+#line 121 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "NEW\tcnew\tline:" + to_string(yylineno);
@@ -986,7 +982,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 133 "src/lexer.l"
+#line 129 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "DELETE\tdelete\tline:" + to_string(yylineno);
@@ -998,7 +994,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 141 "src/lexer.l"
+#line 137 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "USING\tusing\tline:" + to_string(yylineno);
@@ -1010,7 +1006,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 149 "src/lexer.l"
+#line 145 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "NAMESPACE\tnamespace\tline:" + to_string(yylineno);
@@ -1022,7 +1018,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 157 "src/lexer.l"
+#line 153 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("VOID\tvoid\tline:" + to_string(yylineno));
@@ -1033,9 +1029,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 164 "src/lexer.l"
+#line 160 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
+        inner = true;
         DEBUG_FOR_LAB4("IF\tif\tline:" + to_string(yylineno));
     #else
         return IF;
@@ -1044,7 +1041,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 171 "src/lexer.l"
+#line 168 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("ELSE\telse\tline:" + to_string(yylineno));
@@ -1055,7 +1052,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 178 "src/lexer.l"
+#line 175 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("RETURN\treturn\tline:" + to_string(yylineno));
@@ -1066,7 +1063,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 185 "src/lexer.l"
+#line 182 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "AND\t&&\tline:" + to_string(yylineno);
@@ -1078,7 +1075,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 193 "src/lexer.l"
+#line 190 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "OR\t||\tline:" + to_string(yylineno);
@@ -1090,7 +1087,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 201 "src/lexer.l"
+#line 198 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "EQUAL\t==\tline:" + to_string(yylineno);
@@ -1102,7 +1099,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 209 "src/lexer.l"
+#line 206 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("ASSIGN\t=\tline:" + to_string(yylineno));
@@ -1113,7 +1110,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 216 "src/lexer.l"
+#line 213 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "UNEQUAL\t!=\tline:" + to_string(yylineno);
@@ -1125,7 +1122,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 224 "src/lexer.l"
+#line 221 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "AGAINST\t!\tline:" + to_string(yylineno);
@@ -1137,7 +1134,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 232 "src/lexer.l"
+#line 229 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "STAR\t*\tline:" + to_string(yylineno);
@@ -1149,7 +1146,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 240 "src/lexer.l"
+#line 237 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "GTE\t>=\tline:" + to_string(yylineno);
@@ -1161,7 +1158,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 248 "src/lexer.l"
+#line 245 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "LTE\t<=\tline:" + to_string(yylineno);
@@ -1173,7 +1170,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 256 "src/lexer.l"
+#line 253 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("LESS\t<\tline:" + to_string(yylineno));
@@ -1184,7 +1181,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 263 "src/lexer.l"
+#line 260 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "GREATER\t>\tline:" + to_string(yylineno);
@@ -1196,7 +1193,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 271 "src/lexer.l"
+#line 268 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("ADD\t+\tline:" + to_string(yylineno));
@@ -1207,7 +1204,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 278 "src/lexer.l"
+#line 275 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "SUB\t-\tline:" + to_string(yylineno);
@@ -1219,7 +1216,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 286 "src/lexer.l"
+#line 283 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "DIV\t/\tline:" + to_string(yylineno);
@@ -1231,7 +1228,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 294 "src/lexer.l"
+#line 291 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "MOD\t%\tline:" + to_string(yylineno);
@@ -1243,7 +1240,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 302 "src/lexer.l"
+#line 299 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "COMMA\t,\tline:" + to_string(yylineno);
@@ -1255,7 +1252,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 310 "src/lexer.l"
+#line 307 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "COLON\t:\tline:" + to_string(yylineno);
@@ -1267,7 +1264,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 318 "src/lexer.l"
+#line 315 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "QUOTATION\t'\tline:" + to_string(yylineno);
@@ -1279,7 +1276,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 326 "src/lexer.l"
+#line 323 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("SEMICOLON\t;\tline:" + to_string(yylineno));
@@ -1290,7 +1287,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 333 "src/lexer.l"
+#line 330 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("LPAREN\t(\tline:" + to_string(yylineno));
@@ -1301,7 +1298,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 340 "src/lexer.l"
+#line 337 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         DEBUG_FOR_LAB4("RPAREN\t)\tline:" + to_string(yylineno));
@@ -1312,9 +1309,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 347 "src/lexer.l"
+#line 344 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
+        if(!inner){
+            last_scope = temp_scope;
+            temp_scope++;
+            while(scope_used[temp_scope]){
+                temp_scope++;
+            }
+            scope_used[temp_scope] = true;
+        }
         DEBUG_FOR_LAB4("LBRACE\t{\tline" + to_string(yylineno));
     #else
         return LBRACE;
@@ -1323,9 +1328,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 354 "src/lexer.l"
+#line 359 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
+        if(inner){
+            inner = false;
+        } else{
+            temp_scope = last_scope;
+        }
         DEBUG_FOR_LAB4("RBRACE\t}\tline:" + to_string(yylineno));
     #else
         return RBRACE;
@@ -1334,7 +1344,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 361 "src/lexer.l"
+#line 371 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "LSQUARE\t[\tline:" + to_string(yylineno);
@@ -1346,7 +1356,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 369 "src/lexer.l"
+#line 379 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "RSQUARE\t]\tline:" + to_string(yylineno);
@@ -1358,7 +1368,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 377 "src/lexer.l"
+#line 387 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string temp = "WELLNO\t#\tline:" + to_string(yylineno);
@@ -1370,7 +1380,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 386 "src/lexer.l"
+#line 396 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string a = yytext;
@@ -1383,7 +1393,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 395 "src/lexer.l"
+#line 405 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string a = yytext;
@@ -1404,7 +1414,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 412 "src/lexer.l"
+#line 422 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string a  = yytext;
@@ -1434,7 +1444,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 438 "src/lexer.l"
+#line 448 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string a = yytext;
@@ -1448,42 +1458,60 @@ YY_RULE_SETUP
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
-#line 447 "src/lexer.l"
+#line 457 "src/lexer.l"
 yylineno++;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 448 "src/lexer.l"
+#line 458 "src/lexer.l"
 
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 450 "src/lexer.l"
+#line 460 "src/lexer.l"
 {}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 451 "src/lexer.l"
+#line 461 "src/lexer.l"
 {BEGIN BLOCKCOMMENT;}
 	YY_BREAK
 case 50:
 /* rule 50 can match eol */
 YY_RULE_SETUP
-#line 452 "src/lexer.l"
+#line 462 "src/lexer.l"
 {}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 453 "src/lexer.l"
+#line 463 "src/lexer.l"
 {BEGIN INITIAL;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 455 "src/lexer.l"
+#line 465 "src/lexer.l"
 {
     #ifdef ONLY_FOR_LEX
         string a = yytext;
-        string temp = "ID\t" + a + "\tline:" + to_string(yylineno);
+        string temp;
+        bool flag = false; //是否存在于符号表
+        int i = 0;
+        for(; i < len; i++){
+            if(sym_list[i].value == a && sym_list[i].scope == temp_scope){
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            temp = "ID\t" + a + "\tline:" + to_string(yylineno) + "\tSymbolTable_offset: " + to_string(i + 1);
+        } else {
+            len++;
+            Symbol sym;
+            sym.value = a;
+            sym.scope = temp_scope;
+            sym_list[len - 1] = sym;
+            temp = "ID\t" + a + "\tline:" + to_string(yylineno) + "\tSymbolTable_offset: " + to_string(len);
+        }
         DEBUG_FOR_LAB4(temp);
     #else
         return ID;
@@ -1492,10 +1520,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 464 "src/lexer.l"
+#line 492 "src/lexer.l"
 ECHO;
 	YY_BREAK
-#line 1499 "src/lexer.cpp"
+#line 1527 "src/lexer.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(BLOCKCOMMENT):
 	yyterminate();
@@ -2501,7 +2529,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 464 "src/lexer.l"
+#line 492 "src/lexer.l"
 
 
 #ifdef ONLY_FOR_LEX
