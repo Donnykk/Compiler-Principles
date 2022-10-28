@@ -1,30 +1,30 @@
-[DEBUG LAB4]: 	INT	int	line:1
-[DEBUG LAB4]: 	ID	a	line:1	SymbolTable_offset: 1
-[DEBUG LAB4]: 	SEMICOLON	;	line:1
-[DEBUG LAB4]: 	INT	int	line:3
-[DEBUG LAB4]: 	ID	main	line:3	SymbolTable_offset: 2
-[DEBUG LAB4]: 	LPAREN	(	line:3
-[DEBUG LAB4]: 	RPAREN	)	line:3
-[DEBUG LAB4]: 	LBRACE	{	line4
-[DEBUG LAB4]: 	INT	int	line:5
-[DEBUG LAB4]: 	ID	a	line:5	SymbolTable_offset: 3
-[DEBUG LAB4]: 	SEMICOLON	;	line:5
-[DEBUG LAB4]: 	ID	a	line:6	SymbolTable_offset: 3
-[DEBUG LAB4]: 	ASSIGN	=	line:6
-[DEBUG LAB4]: 	DECIMAL	1	line:6
-[DEBUG LAB4]: 	ADD	+	line:6
-[DEBUG LAB4]: 	DECIMAL	2	line:6
-[DEBUG LAB4]: 	SEMICOLON	;	line:6
-[DEBUG LAB4]: 	IF	if	line:7
-[DEBUG LAB4]: 	LPAREN	(	line:7
-[DEBUG LAB4]: 	ID	a	line:7	SymbolTable_offset: 3
-[DEBUG LAB4]: 	LESS	<	line:7
-[DEBUG LAB4]: 	DECIMAL	5	line:7
-[DEBUG LAB4]: 	RPAREN	)	line:7
-[DEBUG LAB4]: 	RETURN	return	line:8
-[DEBUG LAB4]: 	DECIMAL	1	line:8
-[DEBUG LAB4]: 	SEMICOLON	;	line:8
-[DEBUG LAB4]: 	RETURN	return	line:9
-[DEBUG LAB4]: 	DECIMAL	0	line:9
-[DEBUG LAB4]: 	SEMICOLON	;	line:9
-[DEBUG LAB4]: 	RBRACE	}	line:10
+[DEBUG LAB4]: 	INT	int	linenum:1	offset:0
+[DEBUG LAB4]: 	ID	a	linenum:1	offset:4	SymbolTable_offset: 1
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:1	offset:5
+[DEBUG LAB4]: 	INT	int	linenum:3	offset:0
+[DEBUG LAB4]: 	ID	main	linenum:3	offset:4	SymbolTable_offset: 2
+[DEBUG LAB4]: 	LPAREN	(	linenum:3	offset:8
+[DEBUG LAB4]: 	RPAREN	)	linenum:3	offset:9
+[DEBUG LAB4]: 	LBRACE	{	linenum:4	offset:0
+[DEBUG LAB4]: 	INT	int	linenum:5	offset:4
+[DEBUG LAB4]: 	ID	a	linenum:5	offset:8	SymbolTable_offset: 3
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:5	offset:9
+[DEBUG LAB4]: 	ID	a	linenum:6	offset:4	SymbolTable_offset: 3
+[DEBUG LAB4]: 	ASSIGN	=	linenum:6	offset:6
+[DEBUG LAB4]: 	DECIMIAL	1	linenum:6	offset:8
+[DEBUG LAB4]: 	ADD	+	linenum:6	offset:10
+[DEBUG LAB4]: 	DECIMIAL	2	linenum:6	offset:12
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:6	offset:13
+[DEBUG LAB4]: 	IF	if	linenum:7	offset:4
+[DEBUG LAB4]: 	LPAREN	(	linenum:7	offset:6
+[DEBUG LAB4]: 	ID	a	linenum:7	offset:7	SymbolTable_offset: 3
+[DEBUG LAB4]: 	LESS	<	linenum:7	offset:9
+[DEBUG LAB4]: 	DECIMIAL	5	linenum:7	offset:11
+[DEBUG LAB4]: 	RPAREN	)	linenum:7	offset:12
+[DEBUG LAB4]: 	RETURN	return	linenum:8	offset:8
+[DEBUG LAB4]: 	DECIMIAL	1	linenum:8	offset:15
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:8	offset:16
+[DEBUG LAB4]: 	RETURN	return	linenum:9	offset:4
+[DEBUG LAB4]: 	DECIMIAL	0	linenum:9	offset:11
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:9	offset:12
+[DEBUG LAB4]: 	RBRACE	}	linenum:10	offset:0

@@ -1,79 +1,79 @@
-[DEBUG LAB4]: 	INT	int	line:3
-[DEBUG LAB4]: 	ID	f	line:3	SymbolTable_offset: 1
-[DEBUG LAB4]: 	LPAREN	(	line:3
-[DEBUG LAB4]: 	RPAREN	)	line:3
-[DEBUG LAB4]: 	LBRACE	{	line3
-[DEBUG LAB4]: 	FLOAT	float	line:4
-[DEBUG LAB4]: 	ID	a	line:4	SymbolTable_offset: 2
-[DEBUG LAB4]: 	SEMICOLON	;	line:4
-[DEBUG LAB4]: 	ID	a	line:5	SymbolTable_offset: 2
-[DEBUG LAB4]: 	ASSIGN	=	line:5
-[DEBUG LAB4]: 	DECIMALS	0.0	line:5
-[DEBUG LAB4]: 	SEMICOLON	;	line:5
-[DEBUG LAB4]: 	WHILE	while	line:6
-[DEBUG LAB4]: 	LPAREN	(	line:6
-[DEBUG LAB4]: 	ID	a	line:6	SymbolTable_offset: 2
-[DEBUG LAB4]: 	LESS	<	line:6
-[DEBUG LAB4]: 	DECIMAL	10	line:6
-[DEBUG LAB4]: 	RPAREN	)	line:6
-[DEBUG LAB4]: 	LBRACE	{	line6
-[DEBUG LAB4]: 	ID	a	line:7	SymbolTable_offset: 2
-[DEBUG LAB4]: 	ASSIGN	=	line:7
-[DEBUG LAB4]: 	ID	a	line:7	SymbolTable_offset: 2
-[DEBUG LAB4]: 	STAR	*	line:7
-[DEBUG LAB4]: 	DECIMAL	2345	line:7
-[DEBUG LAB4]: 	SEMICOLON	;	line:7
-[DEBUG LAB4]: 	RBRACE	}	line:8
-[DEBUG LAB4]: 	RETURN	return	line:9
-[DEBUG LAB4]: 	ID	a	line:9	SymbolTable_offset: 2
-[DEBUG LAB4]: 	SEMICOLON	;	line:9
-[DEBUG LAB4]: 	RBRACE	}	line:10
-[DEBUG LAB4]: 	INT	int	line:12
-[DEBUG LAB4]: 	ID	main	line:12	SymbolTable_offset: 3
-[DEBUG LAB4]: 	LPAREN	(	line:12
-[DEBUG LAB4]: 	RPAREN	)	line:12
-[DEBUG LAB4]: 	LBRACE	{	line12
-[DEBUG LAB4]: 	INT	int	line:13
-[DEBUG LAB4]: 	ID	_testid	line:13	SymbolTable_offset: 4
-[DEBUG LAB4]: 	SEMICOLON	;	line:13
-[DEBUG LAB4]: 	ID	_testid	line:14	SymbolTable_offset: 4
-[DEBUG LAB4]: 	ASSIGN	=	line:14
-[DEBUG LAB4]: 	DECIMAL	0	line:14
-[DEBUG LAB4]: 	SEMICOLON	;	line:14
-[DEBUG LAB4]: 	IF	if	line:15
-[DEBUG LAB4]: 	LPAREN	(	line:15
-[DEBUG LAB4]: 	ID	_testid	line:15	SymbolTable_offset: 4
-[DEBUG LAB4]: 	EQUAL	==	line:15
-[DEBUG LAB4]: 	DECIMAL	0	line:15
-[DEBUG LAB4]: 	RPAREN	)	line:15
-[DEBUG LAB4]: 	LBRACE	{	line15
-[DEBUG LAB4]: 	INT	int	line:16
-[DEBUG LAB4]: 	ID	_testid	line:16	SymbolTable_offset: 4
-[DEBUG LAB4]: 	SEMICOLON	;	line:16
-[DEBUG LAB4]: 	INT	int	line:17
-[DEBUG LAB4]: 	ID	_testid2	line:17	SymbolTable_offset: 5
-[DEBUG LAB4]: 	SEMICOLON	;	line:17
-[DEBUG LAB4]: 	ID	_testid1	line:18	SymbolTable_offset: 6
-[DEBUG LAB4]: 	ASSIGN	=	line:18
-[DEBUG LAB4]: 	ID	_testid1	line:18	SymbolTable_offset: 6
-[DEBUG LAB4]: 	ADD	+	line:18
-[DEBUG LAB4]: 	DECIMAL	1	line:18
-[DEBUG LAB4]: 	SEMICOLON	;	line:18
-[DEBUG LAB4]: 	RBRACE	}	line:19
-[DEBUG LAB4]: 	LBRACE	{	line23
-[DEBUG LAB4]: 	INT	int	line:24
-[DEBUG LAB4]: 	ID	a	line:24	SymbolTable_offset: 7
-[DEBUG LAB4]: 	SEMICOLON	;	line:24
-[DEBUG LAB4]: 	RBRACE	}	line:25
-[DEBUG LAB4]: 	LBRACE	{	line26
-[DEBUG LAB4]: 	INT	int	line:27
-[DEBUG LAB4]: 	ID	a	line:27	SymbolTable_offset: 8
-[DEBUG LAB4]: 	SEMICOLON	;	line:27
-[DEBUG LAB4]: 	RBRACE	}	line:28
-[DEBUG LAB4]: 	INT	int	line:29
-[DEBUG LAB4]: 	ID	b	line:29	SymbolTable_offset: 9
-[DEBUG LAB4]: 	SEMICOLON	;	line:29
-[DEBUG LAB4]: 	RETURN	return	line:30
-[DEBUG LAB4]: 	DECIMAL	0	line:30
-[DEBUG LAB4]: 	SEMICOLON	;	line:30
-[DEBUG LAB4]: 	RBRACE	}	line:31
+[DEBUG LAB4]: 	INT	int	linenum:3	offset:0
+[DEBUG LAB4]: 	ID	f	linenum:3	offset:4	SymbolTable_offset: 1
+[DEBUG LAB4]: 	LPAREN	(	linenum:3	offset:5
+[DEBUG LAB4]: 	RPAREN	)	linenum:3	offset:6
+[DEBUG LAB4]: 	LBRACE	{	linenum:3	offset:7
+[DEBUG LAB4]: 	FLOAT	float	linenum:4	offset:1
+[DEBUG LAB4]: 	ID	a	linenum:4	offset:7	SymbolTable_offset: 2
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:4	offset:8
+[DEBUG LAB4]: 	ID	a	linenum:5	offset:1	SymbolTable_offset: 2
+[DEBUG LAB4]: 	ASSIGN	=	linenum:5	offset:3
+[DEBUG LAB4]: 	DECIMALS	0.0	linenum:5	offset:5
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:5	offset:8
+[DEBUG LAB4]: 	WHILE	while	linenum:6	offset:1
+[DEBUG LAB4]: 	LPAREN	(	linenum:6	offset:6
+[DEBUG LAB4]: 	ID	a	linenum:6	offset:7	SymbolTable_offset: 2
+[DEBUG LAB4]: 	LESS	<	linenum:6	offset:9
+[DEBUG LAB4]: 	DECIMIAL	10	linenum:6	offset:11
+[DEBUG LAB4]: 	RPAREN	)	linenum:6	offset:13
+[DEBUG LAB4]: 	LBRACE	{	linenum:6	offset:14
+[DEBUG LAB4]: 	ID	a	linenum:7	offset:2	SymbolTable_offset: 2
+[DEBUG LAB4]: 	ASSIGN	=	linenum:7	offset:4
+[DEBUG LAB4]: 	ID	a	linenum:7	offset:6	SymbolTable_offset: 2
+[DEBUG LAB4]: 	STAR	*	linenum:7	offset:8
+[DEBUG LAB4]: 	DECIMIAL	2345	linenum:7	offset:10
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:7	offset:14
+[DEBUG LAB4]: 	RBRACE	}	linenum:8	offset:1
+[DEBUG LAB4]: 	RETURN	return	linenum:9	offset:1
+[DEBUG LAB4]: 	ID	a	linenum:9	offset:8	SymbolTable_offset: 2
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:9	offset:9
+[DEBUG LAB4]: 	RBRACE	}	linenum:10	offset:0
+[DEBUG LAB4]: 	INT	int	linenum:12	offset:0
+[DEBUG LAB4]: 	ID	main	linenum:12	offset:4	SymbolTable_offset: 3
+[DEBUG LAB4]: 	LPAREN	(	linenum:12	offset:8
+[DEBUG LAB4]: 	RPAREN	)	linenum:12	offset:9
+[DEBUG LAB4]: 	LBRACE	{	linenum:12	offset:10
+[DEBUG LAB4]: 	INT	int	linenum:13	offset:1
+[DEBUG LAB4]: 	ID	_testid	linenum:13	offset:5	SymbolTable_offset: 4
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:13	offset:12
+[DEBUG LAB4]: 	ID	_testid	linenum:14	offset:1	SymbolTable_offset: 4
+[DEBUG LAB4]: 	ASSIGN	=	linenum:14	offset:9
+[DEBUG LAB4]: 	DECIMIAL	0	linenum:14	offset:11
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:14	offset:12
+[DEBUG LAB4]: 	IF	if	linenum:15	offset:1
+[DEBUG LAB4]: 	LPAREN	(	linenum:15	offset:3
+[DEBUG LAB4]: 	ID	_testid	linenum:15	offset:4	SymbolTable_offset: 4
+[DEBUG LAB4]: 	EQUAL	==	linenum:15	offset:11
+[DEBUG LAB4]: 	DECIMIAL	0	linenum:15	offset:13
+[DEBUG LAB4]: 	RPAREN	)	linenum:15	offset:14
+[DEBUG LAB4]: 	LBRACE	{	linenum:15	offset:15
+[DEBUG LAB4]: 	INT	int	linenum:16	offset:2
+[DEBUG LAB4]: 	ID	_testid	linenum:16	offset:6	SymbolTable_offset: 4
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:16	offset:13
+[DEBUG LAB4]: 	INT	int	linenum:17	offset:2
+[DEBUG LAB4]: 	ID	_testid2	linenum:17	offset:6	SymbolTable_offset: 5
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:17	offset:14
+[DEBUG LAB4]: 	ID	_testid1	linenum:18	offset:2	SymbolTable_offset: 6
+[DEBUG LAB4]: 	ASSIGN	=	linenum:18	offset:10
+[DEBUG LAB4]: 	ID	_testid1	linenum:18	offset:11	SymbolTable_offset: 6
+[DEBUG LAB4]: 	ADD	+	linenum:18	offset:19
+[DEBUG LAB4]: 	DECIMIAL	1	linenum:18	offset:20
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:18	offset:21
+[DEBUG LAB4]: 	RBRACE	}	linenum:19	offset:1
+[DEBUG LAB4]: 	LBRACE	{	linenum:23	offset:1
+[DEBUG LAB4]: 	INT	int	linenum:24	offset:2
+[DEBUG LAB4]: 	ID	a	linenum:24	offset:6	SymbolTable_offset: 7
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:24	offset:7
+[DEBUG LAB4]: 	RBRACE	}	linenum:25	offset:1
+[DEBUG LAB4]: 	LBRACE	{	linenum:26	offset:1
+[DEBUG LAB4]: 	INT	int	linenum:27	offset:2
+[DEBUG LAB4]: 	ID	a	linenum:27	offset:6	SymbolTable_offset: 8
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:27	offset:7
+[DEBUG LAB4]: 	RBRACE	}	linenum:28	offset:1
+[DEBUG LAB4]: 	INT	int	linenum:29	offset:1
+[DEBUG LAB4]: 	ID	b	linenum:29	offset:5	SymbolTable_offset: 9
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:29	offset:6
+[DEBUG LAB4]: 	RETURN	return	linenum:30	offset:1
+[DEBUG LAB4]: 	DECIMIAL	0	linenum:30	offset:8
+[DEBUG LAB4]: 	SEMICOLON	;	linenum:30	offset:9
+[DEBUG LAB4]: 	RBRACE	}	linenum:31	offset:0

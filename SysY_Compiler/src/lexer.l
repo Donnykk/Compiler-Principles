@@ -23,6 +23,13 @@
     extern FILE *yyin; 
     extern FILE *yyout;
 
+    int wordnum=0;
+    
+    void DEBUG_FOR_LAB4(std::string s){
+        std::string DEBUG_INFO = "[DEBUG LAB4]: \t" + s + "\n";
+        fputs(DEBUG_INFO.c_str(), yyout);
+    }
+    
     struct Symbol{
         string value;
         int scope;
@@ -34,14 +41,11 @@
     int last_scope = 0;
     bool scope_used[100] = {false};
     bool inner = false;
-    void DEBUG_FOR_LAB4(std::string s){
-            std::string DEBUG_INFO = "[DEBUG LAB4]: \t" + s + "\n";
-            fputs(DEBUG_INFO.c_str(), yyout);
-    }
+    
     #endif
 %}
 
-DECIMAL ([1-9][0-9]*|0)
+DECIMIAL ([1-9][0-9]*|0)
 OCT (0[1-7][0-7]*|00)
 HEX (0[xX][1-9|A-F|a-f][0-9|A-f|a-f]*|0x0)
 DECIMALS ((([0-9]*[.][0-9]*([eE][+-]?[0-9]+)?)|([0-9]+[eE][+-]?[0-9]+))[fLlL]?)
@@ -56,6 +60,7 @@ BLOCKCOMMENTEND "*/"
 
 %%
 
+
 "int" {
     /*
     * Questions: 
@@ -63,24 +68,27 @@ BLOCKCOMMENTEND "*/"
     *   Q2: What is "INT" actually?
     */
     #ifdef ONLY_FOR_LEX
-        string temp = "INT\tint\tline:" + to_string(yylineno);
+        string temp = "INT\tint\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("int");
     #else
         return INT;
     #endif
 }
 "float" {
     #ifdef ONLY_FOR_LEX
-        string temp = "FLOAT\tfloat\tline:" + to_string(yylineno);
+        string temp = "FLOAT\tfloat\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("float");
     #else
         return FLOAT;
     #endif
 }
 "char" {
     #ifdef ONLY_FOR_LEX
-        string temp = "CHAR\tchar\tline:" + to_string(yylineno);
+        string temp = "CHAR\tchar\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("char");
     #else
         return CHAR;
     #endif
@@ -88,8 +96,9 @@ BLOCKCOMMENTEND "*/"
 "while" {
     #ifdef ONLY_FOR_LEX
         inner = true;
-        string temp = "WHILE\twhile\tline:" + to_string(yylineno);
+        string temp = "WHILE\twhile\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("while");
     #else
         return WHILE;
     #endif
@@ -97,262 +106,305 @@ BLOCKCOMMENTEND "*/"
 "for" {
     #ifdef ONLY_FOR_LEX
         inner = true;
-        string temp = "FOR\tfor\tline:" + to_string(yylineno);
+        string temp = "FOR\tfor\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("for");
     #else
-        return WHILE;
+        return FOR;
     #endif
 }
 "break" {
     #ifdef ONLY_FOR_LEX
-        string temp = "BREAK\tbreak\tline:" + to_string(yylineno);
+        string temp = "BREAK\tbreak\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("break");
     #else
         return BREAK;
     #endif
 }
 "continue" {
     #ifdef ONLY_FOR_LEX
-        string temp = "CONTINUE\tcontinue\tline:" + to_string(yylineno);
+        string temp = "CONTINUE\tcontinue\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("continue");
     #else
         return CONTINUE;
     #endif
 }
 "const" {
     #ifdef ONLY_FOR_LEX
-        string temp = "CONST\tconst\tline:" + to_string(yylineno);
+        string temp = "CONST\tconst\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("const");
     #else
         return CONST;
     #endif
 }
 "new" {
     #ifdef ONLY_FOR_LEX
-        string temp = "NEW\tcnew\tline:" + to_string(yylineno);
+        string temp = "NEW\tcnew\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("new");
     #else
         return NEW;
     #endif
 }
 "delete" {
     #ifdef ONLY_FOR_LEX
-        string temp = "DELETE\tdelete\tline:" + to_string(yylineno);
+        string temp = "DELETE\tdelete\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("delete");
     #else
         return DELETE;
     #endif
 }
 "using" {
     #ifdef ONLY_FOR_LEX
-        string temp = "USING\tusing\tline:" + to_string(yylineno);
+        string temp = "USING\tusing\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("using");
     #else
         return USING;
     #endif
 }
 "namespace" {
     #ifdef ONLY_FOR_LEX
-        string temp = "NAMESPACE\tnamespace\tline:" + to_string(yylineno);
+        string temp = "NAMESPACE\tnamespace\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("namespace");
     #else
         return namespace;
     #endif
 }
 "void" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("VOID\tvoid\tline:" + to_string(yylineno));
+        string temp = "VOID\tvoid\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("void");
     #else
         return VOID;
-    #endif 
+    #endif
 }
 "if" {
     #ifdef ONLY_FOR_LEX
         inner = true;
-        DEBUG_FOR_LAB4("IF\tif\tline:" + to_string(yylineno));
+        string temp = "IF\tif\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("if");
     #else
         return IF;
     #endif
-};
+}
 "else" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("ELSE\telse\tline:" + to_string(yylineno));
+        string temp = "ELSE\telse\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("else");
     #else
         return ELSE;
     #endif
-};
+}
 "return" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("RETURN\treturn\tline:" + to_string(yylineno));
+        string temp = "RETURN\treturn\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("return");
     #else
         return RETURN;
     #endif
 }
 "&&" {
     #ifdef ONLY_FOR_LEX
-        string temp = "AND\t&&\tline:" + to_string(yylineno);
+        string temp = "AND\t&&\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("&&");
     #else
         return AND;
     #endif
 }
 "||" {
     #ifdef ONLY_FOR_LEX
-        string temp = "OR\t||\tline:" + to_string(yylineno);
+        string temp = "OR\t||\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("||");
     #else
         return OR;
     #endif
 }
 "==" {
     #ifdef ONLY_FOR_LEX
-        string temp = "EQUAL\t==\tline:" + to_string(yylineno);
+        string temp = "EQUAL\t==\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("==");
     #else
         return EQUAL;
     #endif
 }
 "=" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("ASSIGN\t=\tline:" + to_string(yylineno));
+        string temp = "ASSIGN\t=\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("=");
     #else
         return ASSIGN;
     #endif
 }
 "!=" {
     #ifdef ONLY_FOR_LEX
-        string temp = "UNEQUAL\t!=\tline:" + to_string(yylineno);
+        string temp = "UNEQUAL\t!=\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("!=");
     #else
         return UNEQUAL;
     #endif
 }
 "!" {
     #ifdef ONLY_FOR_LEX
-        string temp = "AGAINST\t!\tline:" + to_string(yylineno);
+        string temp = "AGAINST\t!\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("!");
     #else
         return AGAINST;
     #endif
 }
 "*" {
     #ifdef ONLY_FOR_LEX
-        string temp = "STAR\t*\tline:" + to_string(yylineno);
+        string temp = "STAR\t*\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("*");
     #else
         return STAR;
     #endif
 }
 ">=" {
     #ifdef ONLY_FOR_LEX
-        string temp = "GTE\t>=\tline:" + to_string(yylineno);
+        string temp = "GTE\t>=\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(">=");
     #else
         return GTE;
     #endif
 }
 "<=" {
     #ifdef ONLY_FOR_LEX
-        string temp = "LTE\t<=\tline:" + to_string(yylineno);
+        string temp = "LTE\t<=\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("<=");
     #else
         return LTE;
     #endif
 }
 "<" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("LESS\t<\tline:" + to_string(yylineno));
+        string temp = "LESS\t<\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("<");
     #else
         return LESS;
     #endif
 }
 ">" {
     #ifdef ONLY_FOR_LEX
-        string temp = "GREATER\t>\tline:" + to_string(yylineno);
+        string temp = "GREATER\t>\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(">");
     #else
         return GREATER;
     #endif
 }
 "+" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("ADD\t+\tline:" + to_string(yylineno));
+        string temp = "ADD\t+\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("+");
     #else
         return ADD;
     #endif
 }
 "-" {
     #ifdef ONLY_FOR_LEX
-        string temp = "SUB\t-\tline:" + to_string(yylineno);
+        string temp = "SUB\t-\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("-");
     #else
         return SUB;
     #endif
 }
 "/" {
     #ifdef ONLY_FOR_LEX
-        string temp = "DIV\t/\tline:" + to_string(yylineno);
+        string temp = "DIV\t/\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("/");
     #else
         return DIV;
     #endif
 }
 "%" {
     #ifdef ONLY_FOR_LEX
-        string temp = "MOD\t%\tline:" + to_string(yylineno);
+        string temp = "MOD\t%\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("%");
     #else
         return MOD;
     #endif
 }
 "," {
     #ifdef ONLY_FOR_LEX
-        string temp = "COMMA\t,\tline:" + to_string(yylineno);
+        string temp = "COMMA\t,\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(",");
     #else
         return COMMA;
     #endif
 }
 ":" {
     #ifdef ONLY_FOR_LEX
-        string temp = "COLON\t:\tline:" + to_string(yylineno);
+        string temp = "COLON\t:\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(":");
     #else
         return COLON;
     #endif
 }
 "'" {
     #ifdef ONLY_FOR_LEX
-        string temp = "QUOTATION\t'\tline:" + to_string(yylineno);
+        string temp = "QUOTATION\t'\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("'");
     #else
         return QUOTATION;
     #endif
 }
 ";" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("SEMICOLON\t;\tline:" + to_string(yylineno));
+        string temp = "SEMICOLON\t;\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(";");
     #else
         return SEMICOLON;
     #endif
 }
 "(" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("LPAREN\t(\tline:" + to_string(yylineno));
-    #else
-        return LPAREN;
+        string temp = "LPAREN\t(\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("(");
+    #else 
+        return LPAREN; 
     #endif
 }
 ")" {
     #ifdef ONLY_FOR_LEX
-        DEBUG_FOR_LAB4("RPAREN\t)\tline:" + to_string(yylineno));
+        string temp = "RPAREN\t)\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(")");
     #else
         return RPAREN;
     #endif
 }
 "{" {
     #ifdef ONLY_FOR_LEX
-        if(!inner){
+    	if(!inner){
             last_scope = temp_scope;
             temp_scope++;
             while(scope_used[temp_scope]){
@@ -360,70 +412,79 @@ BLOCKCOMMENTEND "*/"
             }
             scope_used[temp_scope] = true;
         }
-        DEBUG_FOR_LAB4("LBRACE\t{\tline" + to_string(yylineno));
+        string temp = "LBRACE\t{\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("{");
     #else
         return LBRACE;
     #endif
 }
 "}" {
     #ifdef ONLY_FOR_LEX
-        if(inner){
+    	if(inner){
             inner = false;
         } else{
             temp_scope = last_scope;
         }
-        DEBUG_FOR_LAB4("RBRACE\t}\tline:" + to_string(yylineno));
+        string temp = "RBRACE\t}\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
+        DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("}");
     #else
         return RBRACE;
     #endif
 }
 "[" {
     #ifdef ONLY_FOR_LEX
-        string temp = "LSQUARE\t[\tline:" + to_string(yylineno);
+        string temp = "LSQUARE\t[\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("[");
     #else
         return LSQUARE;
     #endif
 }
 "]" {
     #ifdef ONLY_FOR_LEX
-        string temp = "RSQUARE\t]\tline:" + to_string(yylineno);
+        string temp = "RSQUARE\t]\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("]");
     #else
         return RSQUARE;
     #endif
 }
 "#" {
     #ifdef ONLY_FOR_LEX
-        string temp = "WELLNO\t#\tline:" + to_string(yylineno);
+        string temp = "WELLNO\t#\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen("#");
     #else
         return WELLNO;
     #endif
 }
 
-{DECIMAL} {
+{DECIMIAL} {
     #ifdef ONLY_FOR_LEX
-        string a = yytext;
-        string temp = "DECIMAL\t" + a + "\tline:" + to_string(yylineno);
+        string a=yytext;
+        string temp="DECIMIAL\t"+a+"\tlinenum:"+to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(yytext);
     #else
-        return DECIMAL;
+        return DECIMIAL;
     #endif
 }
 {OCT} {
     #ifdef ONLY_FOR_LEX
         string a = yytext;
-        int all = 0;
-        int len = a.length()-1;
-        for(int i = 0; i < len; i++)
+        int all=0;
+        int len=a.length()-1;
+        for(int i=0;i<len;i++)
         {
-            int temp1 = (pow(8, (len - i - 1)));
-            int temp2 = (a[i+1] - '0');
-            all = all + temp1 * temp2;
+            int temp1=(pow(8,(len-i-1)));
+            int temp2=(a[i+1]-'0');
+            all=all+temp1*temp2;
         }
-        string temp = "OCT\t" + to_string(all) + "\tline:" + to_string(yylineno);
+        string temp="OCT\t"+to_string(all)+"\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(yytext);
     #else
         return  OCT;
     #endif
@@ -432,7 +493,7 @@ BLOCKCOMMENTEND "*/"
     #ifdef ONLY_FOR_LEX
         string a  = yytext;
         int all = 0;
-        int len = a.length() - 2;
+        int len=a.length() - 2;
         for(int i = 0; i < len; i++)
         {
             int temp1 = (pow(16, (len - i - 1)));
@@ -448,8 +509,9 @@ BLOCKCOMMENTEND "*/"
             }
             all = all + temp1 * temp2;         
         }
-        string temp = "HEX\t" + to_string(all) + "\tline:" + to_string(yylineno);
+        string temp = "HEX\t" + to_string(all) + "\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(yytext);
     #else 
         return HEX;
     #endif
@@ -457,14 +519,22 @@ BLOCKCOMMENTEND "*/"
 {DECIMALS} {
     #ifdef ONLY_FOR_LEX
         string a = yytext;
-        string temp = "DECIMALS\t" + a + "\tline:" + to_string(yylineno);
+        string temp = "DECIMALS\t" + a + "\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(yytext);
     #else
         return DECIMALS;
     #endif
 }
-<*>{EOL} yylineno++;
-{WHITE}
+
+<*>{EOL} {
+	wordnum+=strlen(yytext);
+	yylineno++;
+	wordnum=0;
+}
+{WHITE} {
+wordnum+=strlen(yytext);
+}
 
 {LINECOMMENT} {}
 {BLOCKCOMMENTBEGIN} {BEGIN BLOCKCOMMENT;}
@@ -484,20 +554,22 @@ BLOCKCOMMENTEND "*/"
             }
         }
         if(flag){
-            temp = "ID\t" + a + "\tline:" + to_string(yylineno) + "\tSymbolTable_offset: " + to_string(i + 1);
+            temp = "ID\t" + a + "\tlinenum:" + to_string(yylineno) +"\toffset:"+to_string(wordnum)+ "\tSymbolTable_offset: " + to_string(i + 1);
         } else {
             len++;
             Symbol sym;
             sym.value = a;
             sym.scope = temp_scope;
             sym_list[len - 1] = sym;
-            temp = "ID\t" + a + "\tline:" + to_string(yylineno) + "\tSymbolTable_offset: " + to_string(len);
+            temp = "ID\t" + a + "\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum) + "\tSymbolTable_offset: " + to_string(len);
         }
         DEBUG_FOR_LAB4(temp);
+        wordnum+=strlen(yytext);
     #else
         return ID;
     #endif
 }
+
 %%
 
 #ifdef ONLY_FOR_LEX
