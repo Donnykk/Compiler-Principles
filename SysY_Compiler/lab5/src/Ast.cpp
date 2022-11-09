@@ -1,8 +1,8 @@
-#include <iostream>
-#include <string>
 #include "Ast.h"
 #include "SymbolTable.h"
+#include <string>
 #include "Type.h"
+#include <iostream>
 
 extern FILE *yyout;
 int Node::counter = 0;
@@ -79,11 +79,11 @@ void OneOpExpr::output(int level)
     std::string op_str;
     switch (op)
     {
-    case NOT:
-        op_str = "not";
-        break;
     case SUB:
         op_str = "minus";
+        break;
+    case NOT:
+        op_str = "not";
         break;
     }
     fprintf(yyout, "%*cOneOpExpr\top: %s\ttype: %s\n", level, ' ', op_str.c_str(), symbolEntry->getType()->toStr().c_str());
@@ -108,10 +108,6 @@ void Id::output(int level)
     scope = dynamic_cast<IdentifierSymbolEntry *>(symbolEntry)->getScope();
     fprintf(yyout, "%*cId\tname: %s\tscope: %d\ttype: %s\n", level, ' ',
             name.c_str(), scope, type.c_str());
-    if (indices != nullptr)
-    {
-        indices->output(level + 4);
-    }
 }
 
 void EmptyStmt::output(int level)
@@ -170,14 +166,7 @@ void FuncCallParamsNode::output(int level)
 void CompoundStmt::output(int level)
 {
     fprintf(yyout, "%*cCompoundStmt\n", level, ' ');
-    if (stmt == nullptr)
-    {
-        fprintf(yyout, "%*cNull Stmt\n", level + 4, ' ');
-    }
-    else
-    {
-        stmt->output(level + 4);
-    }
+    stmt->output(level + 4);
 }
 
 void SeqNode::addNext(StmtNode *next)
@@ -210,46 +199,17 @@ void DeclStmt::output(int level)
 
 void DefNode::output(int level)
 {
-    std::string constStr = isConst ? "true" : "false";
-    fprintf(yyout, "%*cDefNode\n", level, ' ');
-    id->output(level + 4);
-    if (initVal == nullptr)
+    std::string constStr;
+    if (isConst == 1)
     {
-        // fprintf(yyout, "%*cnull\n", level + 4, ' ');
+        constStr = true;
     }
     else
     {
-        initVal->output(level + 4);
+        constStr = false;
     }
-}
-
-void InitValNode::addNext(InitValNode *next)
-{
-    innerList.push_back(next);
-}
-
-void InitValNode::output(int level)
-{
-    std::string constStr = isConst ? "true" : "false";
-    fprintf(yyout, "%*cInitValNode\tisConst:%s\n", level, ' ', constStr.c_str());
-    for (auto child : innerList)
-    {
-        child->output(level + 4);
-    }
-    if (leafNode != nullptr)
-    {
-        leafNode->output(level + 4);
-    }
-}
-
-void InitValNode::setLeafNode(ExprNode *leaf)
-{
-    leafNode = leaf;
-}
-
-bool InitValNode::isLeaf()
-{
-    return innerList.empty();
+    fprintf(yyout, "%*cDefNode\n", level, ' ');
+    id->output(level + 4);
 }
 
 void IfStmt::output(int level)
@@ -287,8 +247,7 @@ void ContinueStmt::output(int level)
 void ReturnStmt::output(int level)
 {
     fprintf(yyout, "%*cReturnStmt\n", level, ' ');
-    if (retValue != nullptr)
-        retValue->output(level + 4);
+    retValue->output(level + 4);
 }
 
 void AssignStmt::output(int level)

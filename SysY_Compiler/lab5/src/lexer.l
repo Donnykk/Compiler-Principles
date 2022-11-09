@@ -169,7 +169,7 @@ BLOCKCOMMENTEND "*/"
         return RETURN;
     #endif
 }
-"&" {
+"&&" {
     #ifdef ONLY_FOR_LEX
         string temp = "AND\t&&\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         if(dump_tokens)
@@ -179,7 +179,7 @@ BLOCKCOMMENTEND "*/"
         return AND;
     #endif
 }
-"|" {
+"||" {
     #ifdef ONLY_FOR_LEX
         string temp = "OR\t||\tlinenum:" + to_string(yylineno)+"\toffset:"+to_string(wordnum);
         if(dump_tokens)
@@ -410,6 +410,140 @@ BLOCKCOMMENTEND "*/"
         wordnum+=strlen("]");
     #else
         return RBRACKET;
+    #endif
+}
+
+"getint" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        Type* funcType = new FunctionType(TypeSystem::intType, {});
+        SymbolTable* globalTable;  
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev()); 
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);   
+        globalTable->install(yytext, entry);
+        return ID;
+    #endif
+}
+"getch" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        Type* funcType = new FunctionType(TypeSystem::intType, {});
+        SymbolTable* globalTable;  
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev());
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);
+        globalTable->install(yytext, entry);
+        return ID;
+    #endif
+}
+"getfloat" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        Type* funcType = new FunctionType(TypeSystem::floatType, {});
+        SymbolTable* globalTable;    
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev()); 
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);
+        globalTable->install(yytext, entry);
+        return ID;
+    #endif
+}
+"putint" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        std::vector<Type*> vec; //形参类型表
+        vec.push_back(TypeSystem::intType);
+        Type* funcType = new FunctionType(TypeSystem::voidType, vec);//返回类型void，参数表[int]
+        SymbolTable* globalTable;    //全域符号表
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev()); //全域符号表
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);//作用域GLOBAL(0)
+        globalTable->install(yytext, entry);
+        return ID;
+    #endif
+}
+"putch" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        std::vector<Type*> vec; //形参类型表
+        vec.push_back(TypeSystem::intType);
+        Type* funcType = new FunctionType(TypeSystem::voidType, vec);//返回类型void，参数表[int]
+        SymbolTable* globalTable;    //全域符号表
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev()); //全域符号表
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);//作用域GLOBAL(0)
+        globalTable->install(yytext, entry);
+        return ID;
+    #endif
+}
+"putfloat" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        std::vector<Type*> vec; //形参类型表
+        vec.push_back(TypeSystem::floatType);
+        Type* funcType = new FunctionType(TypeSystem::voidType, vec);//返回类型void，参数表[int]
+        SymbolTable* globalTable;    //全域符号表
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev()); //全域符号表
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);//作用域GLOBAL(0)
+        globalTable->install(yytext, entry);
+        return ID;
+    #endif
+}
+"putf" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        /*todo: implement putf*/
+    #endif
+}
+"starttime" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        Type* funcType = new FunctionType(TypeSystem::voidType, {});//返回类型void，无参数
+        SymbolTable* globalTable;    //全域符号表
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev()); //全域符号表
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);//作用域GLOBAL(0)
+        globalTable->install(yytext, entry);
+        return ID;
+    #endif
+}
+"stoptime" {
+    #ifdef ONLY_FOR_LEX
+        
+    #else
+        char *lexeme = new char[strlen(yytext) + 1];
+        strcpy(lexeme, yytext);
+        yylval.strtype = lexeme;
+        Type* funcType = new FunctionType(TypeSystem::voidType, {});//返回类型void，无参数
+        SymbolTable* globalTable;    //全域符号表
+        for(globalTable = identifiers;globalTable->getPrev();globalTable = globalTable->getPrev()); //全域符号表
+        SymbolEntry* entry = new IdentifierSymbolEntry(funcType, yytext, 0);//作用域GLOBAL(0)
+        globalTable->install(yytext, entry);
+        return ID;
     #endif
 }
 

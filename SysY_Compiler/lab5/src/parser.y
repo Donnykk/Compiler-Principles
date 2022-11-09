@@ -281,9 +281,11 @@ Cond
         }
     ;
 LOrExp
-    :   LAndExp {$$ = $1;}
+    :   LAndExp {
+            $$ = $1;
+        }
     |   LOrExp OR LAndExp   {
-            SymbolEntry *se = new TemporarySymbolEntry(TypeSystem::intType, SymbolTable::getLabel());
+            SymbolEntry *se = new TemporarySymbolEntry(TypeSystem::boolType, SymbolTable::getLabel());
             $$ = new BinaryExpr(se, BinaryExpr::OR, $1, $3);
         }
     ;
@@ -297,7 +299,9 @@ LAndExp
         }
     ;
 EqExp
-    :   RelExp {$$ = $1;}
+    :   RelExp {
+            $$ = $1;
+        }
     |   EqExp EQ RelExp {
             SymbolEntry* se = new TemporarySymbolEntry(TypeSystem::boolType, SymbolTable::getLabel());
             $$ = new BinaryExpr(se, BinaryExpr::EQ, $1, $3);
@@ -373,7 +377,7 @@ ConstDef
             SymbolEntry *se;
             se = new IdentifierSymbolEntry(type, $1, identifiers->getLevel());
             identifiers->install($1, se);
-            $$ = new DefNode(new Id(se), (Node*)$3, true, false);
+            $$ = new DefNode(new Id(se), true);
         }
     ;
 VarDefList
@@ -400,7 +404,7 @@ VarDef
             SymbolEntry *se;
             se = new IdentifierSymbolEntry(type, $1, identifiers->getLevel());
             identifiers->install($1, se);
-            $$ = new DefNode(new Id(se), nullptr, false, false);
+            $$ = new DefNode(new Id(se), false);
         }
     |   ID ASSIGN Exp {
             Type* type;
@@ -413,7 +417,7 @@ VarDef
             SymbolEntry *se;
             se = new IdentifierSymbolEntry(type, $1, identifiers->getLevel());
             identifiers->install($1, se);
-            $$ = new DefNode(new Id(se), (Node*)$3, false, false);
+            $$ = new DefNode(new Id(se), false);
         }
     ;
 FuncDef
@@ -463,7 +467,7 @@ FuncParam
     :   Type ID {
             SymbolEntry *se = new IdentifierSymbolEntry($1, $2, identifiers->getLevel());
             identifiers->install($2, se);
-            $$ = new DefNode(new Id(se), nullptr, false, false);
+            $$ = new DefNode(new Id(se), false);
         }
     ;
 %%

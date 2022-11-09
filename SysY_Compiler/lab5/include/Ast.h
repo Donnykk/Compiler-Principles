@@ -40,17 +40,17 @@ public:
     {
         ADD,
         SUB,
-        MUL,
-        DIV,
-        MOD,
         AND,
         OR,
         LESS,
-        LESSEQ,
         GREAT,
         GREATEQ,
+        LESSEQ,
         EQ,
-        NEQ
+        NEQ,
+        MUL,
+        DIV,
+        MOD
     };
     BinaryExpr(SymbolEntry *se, int op, ExprNode *expr1, ExprNode *expr2) : ExprNode(se), op(op), expr1(expr1), expr2(expr2){};
     void output(int level);
@@ -79,6 +79,17 @@ public:
     void output(int level);
 };
 
+class Id : public ExprNode
+{
+public:
+    Id(SymbolEntry *se) : ExprNode(se){};
+    SymbolEntry *getSymbolEntry()
+    {
+        return symbolEntry;
+    }
+    void output(int level);
+};
+
 class StmtNode : public Node
 {
 };
@@ -94,22 +105,20 @@ public:
     void output(int level);
 };
 
-class Id : public ExprNode
-{
-private:
-    ExprStmtNode *indices;
-
-public:
-    Id(SymbolEntry *se) : ExprNode(se), indices(nullptr){};
-    SymbolEntry *getSymbolEntry() { return symbolEntry; }
-    void addIndices(ExprStmtNode *idx) { indices = idx; }
-    void output(int level);
-};
-
 class EmptyStmt : public StmtNode
 {
 public:
     EmptyStmt(){};
+    void output(int level);
+};
+
+class CompoundStmt : public StmtNode
+{
+private:
+    StmtNode *stmt;
+
+public:
+    CompoundStmt(StmtNode *stmt) : stmt(stmt){};
     void output(int level);
 };
 
@@ -135,16 +144,6 @@ public:
     void output(int level);
 };
 
-class CompoundStmt : public StmtNode
-{
-private:
-    StmtNode *stmt;
-
-public:
-    CompoundStmt(StmtNode *stmt) : stmt(stmt){};
-    void output(int level);
-};
-
 class SeqNode : public StmtNode
 {
 private:
@@ -156,31 +155,18 @@ public:
     void output(int level);
 };
 
-class InitValNode : public StmtNode
-{
-private:
-    bool isConst;
-    ExprNode *leafNode;
-    std::vector<InitValNode *> innerList;
-
-public:
-    InitValNode(bool isConst) : isConst(isConst), leafNode(nullptr){};
-    void addNext(InitValNode *next);
-    void setLeafNode(ExprNode *leaf);
-    bool isLeaf();
-    void output(int level);
-};
-
 class DefNode : public StmtNode
 {
 private:
-    bool isConst;
     Id *id;
-    Node *initVal;
+    bool isConst;
 
 public:
-    DefNode(Id *id, Node *initVal, bool isConst, bool isArray) : isConst(isConst), id(id), initVal(initVal){};
-    Id *getId() { return id; }
+    DefNode(Id *id, bool isConst) : id(id), isConst(isConst){};
+    Id *getId()
+    {
+        return id;
+    }
     void output(int level);
 };
 
