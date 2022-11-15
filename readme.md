@@ -1,16 +1,13 @@
-编译原理课程大作业仓库
-lab1 lab2为预备工作
+# 2022编译原理课程大作业仓库
 
+## SysY——简化C编译器实现 
 
-注：
-汇编文件生成可执行文件：
-arm-linux-gnueabihf-gcc main.S -o main
+* lab1 lab2(含lab3)为预备工作
 
-运行可执行文件：
-qemu-arm -L /usr/arm-linux-gnueabihf/ ./main
+* lab4 词法分析
 
-bison：
-    $ bison -d calc.y
-    $ flex calc.l
-    $ gcc calc.tab.c lex.yy.c -o calc -lm
-    $ ./calc
+* lab5 语法分析
+
+* lab6 类型检查&中间代码生成
+
+* lab7 ARM生成&编译器构造完成
