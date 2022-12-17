@@ -21,7 +21,7 @@ protected:
     std::vector<Instruction *> true_list;
     std::vector<Instruction *> false_list;
     static IRBuilder *builder;
-    void backPatch(std::vector<Instruction *> &list, BasicBlock *bb);
+    void backPatchTrue(std::vector<Instruction *> &list, BasicBlock *bb);
     void backPatchFalse(std::vector<Instruction *> &list, BasicBlock *bb);
     std::vector<Instruction *> merge(std::vector<Instruction *> &list1, std::vector<Instruction *> &list2);
 
@@ -228,7 +228,7 @@ class IdList : public ListNode
 {
 public:
     std::vector<Id *> ids;
-    std::vector<AssignStmt *> value;
+    std::vector<AssignStmt *> value; // 赋值语句
     IdList(std::vector<Id *> ids, std::vector<AssignStmt *> value) : ids(ids), value(value){};
     void output(int level);
     void typeCheck();
