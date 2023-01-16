@@ -46,7 +46,7 @@ int main(){
     int a;
     int b;
     a = 1;
-    b = a + 2*9;
+    b = a + 2*11;
 
     return func(a, b);
 }
